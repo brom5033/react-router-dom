@@ -1,13 +1,14 @@
-import { Link, useLoaderData, Outlet, Form } from "react-router-dom";
+import { Link, useLoaderData, Outlet, useFetcher } from "react-router-dom";
 
 export default function TeamLayout() {
   const data = useLoaderData();
+  const fetcher = useFetcher();
   return (
     <div>
       <h2>Team Layout</h2>
-      <Form method="post">
+      <fetcher.Form method="post">
         <button type="submit">Create</button>
-      </Form>
+      </fetcher.Form>
       <nav>
         <ul>
           {data.teams.map((team) => (
