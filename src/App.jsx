@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./routes/Layout";
 import AuthLayout from "./routes/AuthLayout";
+import Team from "./routes/Team";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="logout" element={<>Logout</>} />
         </Route>
         <Route path="*" element={<>Not Found</>} />
+        <Route path="team/:teamId" element={<Team />} />
       </Route>
     </Routes>
   );

@@ -24,6 +24,9 @@ export default function Layout() {
           <li>
             <Link to="/logout">Logout</Link>
           </li>
+          <li>
+            <Link to="/team/123">Team 123</Link>
+          </li>
         </ul>
       </nav>
       <Outlet />
