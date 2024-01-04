@@ -35,7 +35,14 @@ export default function Layout() {
             <Link to="/logout">Logout</Link>
           </li>
           <li>
-            <Link to="/team/123">Team 123</Link>
+            <NavLink to="/team/123" end>
+              {({ isActive }) => {
+                if (isActive) {
+                  return "Team 123 (active)";
+                }
+                return "Team 123";
+              }}
+            </NavLink>
           </li>
           <li>
             <Link to="/team/new">New</Link>
