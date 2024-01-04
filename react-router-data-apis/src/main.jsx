@@ -61,18 +61,18 @@ async function teamLoader({ params }) {
   };
 }
 
-const teamAction = ({ request, params }) => {
-  switch (request.method) {
-    case "DELETE": {
-      teams = teams.filter((team) => team.id !== params.id);
+// const teamAction = ({ request, params }) => {
+//   switch (request.method) {
+//     case "DELETE": {
+//       teams = teams.filter((team) => team.id !== params.id);
 
-      return Promise.resolve(redirect("/team"));
-    }
-    default: {
-      return new Response("", { status: 405 });
-    }
-  }
-};
+//       return Promise.resolve(redirect("/team"));
+//     }
+//     default: {
+//       return new Response("", { status: 405 });
+//     }
+//   }
+// };
 
 const router = createBrowserRouter([
   {
@@ -93,7 +93,7 @@ const router = createBrowserRouter([
             path: ":id",
             element: <Team />,
             loader: teamLoader,
-            action: teamAction,
+            // action: teamAction,
           },
         ],
       },
