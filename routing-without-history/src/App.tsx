@@ -1,31 +1,47 @@
-import React, { MouseEvent, useEffect, useState } from "react";
+import React, { MouseEvent, useCallback, useEffect, useState } from "react";
 
-function App() {
+function usePathname() {
   const [pathname, setPathname] = useState(window.location.pathname);
 
-  function handleGoHome() {
-    window.history.pushState(null, "", "/");
-    setPathname("/");
-  }
+  const listener = useCallback(() => {
+    setPathname(window.location.pathname);
+  }, []);
 
-  function handleGoAbout(event: MouseEvent<HTMLAnchorElement>) {
-    event.preventDefault();
-    const href = event.currentTarget.getAttribute("href");
-    if (href === null) return;
-    window.history.pushState(null, "", href);
-    setPathname(href);
-  }
+  const push = useCallback(
+    (path: string) => {
+      window.history.pushState(null, "", path);
+      listener();
+    },
+    [listener]
+  );
 
   useEffect(() => {
     const callback = () => {
-      setPathname(window.location.pathname);
+      listener();
     };
 
     window.addEventListener("popstate", callback);
     return () => {
       window.removeEventListener("popstate", callback);
     };
-  }, []);
+  }, [listener]);
+
+  return [pathname, push] as const;
+}
+
+function App() {
+  const [pathname, push] = usePathname();
+
+  function handleGoHome() {
+    push("/");
+  }
+
+  function handleGoAbout(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    const href = event.currentTarget.getAttribute("href");
+    if (href === null) return;
+    push(href);
+  }
 
   return (
     <div>
