@@ -84,13 +84,18 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        lazy: async () => {
-          const { loader, default: Component } = await import("./routes/Home");
-          return {
-            loader,
-            element: <Component />,
-          };
+        loader: async ({ request, params }) => {
+          const { default: loader } = await import("./loaders/homeLoader");
+          return loader({ request, params });
         },
+        lazy: () => import("./routes/Home"),
+        // lazy: async () => {
+        //   const { loader, default: Component } = await import("./routes/Home");
+        //   return {
+        //     loader,
+        //     element: <Component />,
+        //   };
+        // },
       },
       { path: "about", lazy: () => import("./routes/About") },
       { path: "dashboard", element: <>DashBoard</> },
