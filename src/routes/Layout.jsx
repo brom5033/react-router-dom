@@ -1,7 +1,26 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, Link } from "react-router-dom";
 
 export default function Layout() {
   return (
-    <div><Outlet /></div>
-  )
+    <div>
+      <h1>Basic Example</h1>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/dashboard">DashBoard</Link>
+          </li>
+          <li>
+            <Link to="/nothing-here">Nothing Here</Link>
+          </li>
+        </ul>
+      </nav>
+      <Outlet />
+    </div>
+  );
 }
