@@ -45,7 +45,7 @@ export default function Layout() {
             </NavLink>
           </li>
           <li>
-            <Link to="/team/new">New</Link>
+            <NavLink to="/team/New" caseSensitive>New Team</NavLink>
           </li>
           <li>
             <Link to="/team/123/task/456">Team 123 Task 456</Link>
