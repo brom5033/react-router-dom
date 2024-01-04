@@ -1,4 +1,5 @@
 import { Routes, Route, Link } from "react-router-dom";
+import Layout from "./routes/Layout";
 
 function App() {
   return (
@@ -21,10 +22,12 @@ function App() {
         </ul>
       </nav>
       <Routes>
-        <Route path="/" element={<>Home</>} />
-        <Route path="about" element={<>About</>} />
-        <Route path="dashboard" element={<>Dashboard</>} />
-        <Route path="*" element={<>Not Found</>} />
+        <Route path="/" element={<Layout />}>
+          <Route element={<>Home</>} />
+          <Route path="about" element={<>About</>} />
+          <Route path="dashboard" element={<>Dashboard</>} />
+          <Route path="*" element={<>Not Found</>} />
+        </Route>
       </Routes>
     </div>
   );
