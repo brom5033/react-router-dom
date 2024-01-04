@@ -16,6 +16,7 @@ function App() {
         </Route>
         <Route path="*" element={<>Not Found</>} />
         <Route path="team/:teamId" element={<Team />} />
+        <Route path="team/new" element={<>New Team</>} />
       </Route>
     </Routes>
   );

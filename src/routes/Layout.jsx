@@ -27,6 +27,9 @@ export default function Layout() {
           <li>
             <Link to="/team/123">Team 123</Link>
           </li>
+          <li>
+            <Link to="/team/new">New Team</Link>
+          </li>
         </ul>
       </nav>
       <Outlet />
