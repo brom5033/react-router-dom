@@ -1,28 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  redirect,
+} from "react-router-dom";
 import Layout from "./routes/Layout";
 import Home, { loader as homeLoader } from "./routes/Home";
 import TeamLayout from "./routes/TeamLayout";
 import Team from "./routes/Team";
 
-const teams = [
+let teams = [
   { id: "1", name: "Red" },
   { id: "2", name: "Blue" },
   { id: "3", name: "Green" },
 ];
 
 async function teamsLoader() {
-  await new Promise((resolve) => setTimeout(resolve, 200));
-
   return {
     teams,
   };
 }
 
-const teamsAction = ({ request }) => {
-  console.log(request);
+const teamsAction = async ({ request }) => {
+  console.log(request.method);
 
   switch (request.method) {
     case "POST": {
@@ -30,24 +32,47 @@ const teamsAction = ({ request }) => {
         id: `${teams.length + 1}`,
         name: `Team ${teams.length + 1}`,
       };
+
       teams.push(team);
+
       return team;
     }
+    case "DELETE": {
+      const formData = await request.formData();
+      let id = formData.get("id");
+
+      console.log(id);
+
+      teams = teams.filter((team) => team.id !== id);
+
+      return Promise.resolve(redirect("/team"));
+    }
     default: {
-      throw new Response("", { status: 405 })
+      return null;
     }
   }
 };
 
 async function teamLoader({ params }) {
-  await new Promise((resolve) => setTimeout(resolve, 200));
-
-  const team = teams.find((team) => team.id === params.teamId);
+  const team = teams.find((team) => team.id === params.id);
 
   return {
     team,
   };
 }
+
+const teamAction = ({ request, params }) => {
+  switch (request.method) {
+    case "DELETE": {
+      teams = teams.filter((team) => team.id !== params.id);
+
+      return Promise.resolve(redirect("/team"));
+    }
+    default: {
+      return new Response("", { status: 405 });
+    }
+  }
+};
 
 const router = createBrowserRouter([
   {
@@ -64,7 +89,12 @@ const router = createBrowserRouter([
         action: teamsAction,
         children: [
           { index: true, element: <>Team Index</> },
-          { path: ":teamId", element: <Team />, loader: teamLoader },
+          {
+            path: ":id",
+            element: <Team />,
+            loader: teamLoader,
+            action: teamAction,
+          },
         ],
       },
       { path: "*", element: <>Not Found</> },
