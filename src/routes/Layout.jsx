@@ -28,7 +28,10 @@ export default function Layout() {
             <Link to="/team/123">Team 123</Link>
           </li>
           <li>
-            <Link to="/team/new">New Team</Link>
+            <Link to="/team/new">New</Link>
+          </li>
+          <li>
+            <Link to="/team/123/task/456">Team 123 Task 456</Link>
           </li>
         </ul>
       </nav>
