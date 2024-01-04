@@ -1,7 +1,11 @@
-export default async function loader() {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+import { defer } from "react-router-dom";
 
-  return {
-    date: new Date().toISOString(),
-  };
+export default function loader() {
+  const date = new Promise((resolve) =>
+    setTimeout(() => resolve(new Date().toISOString()), 1000)
+  );
+
+  return defer({
+    date,
+  });
 }
