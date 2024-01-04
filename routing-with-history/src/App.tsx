@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { type FC, useState, MouseEvent, useEffect } from "react";
+import { type BrowserHistory } from "history";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: FC<{ history: BrowserHistory }> = ({ history }) => {
+  const [pathname, setPathname] = useState(history.location.pathname);
+
+  useEffect(() => {
+    const unlisten = history.listen(({ location }) => {
+      setPathname(location.pathname);
+    });
+
+    return () => {
+      unlisten();
+    };
+  }, [history, pathname]);
+
+  const handleGoHome = () => {
+    history.push("/");
+  };
+  const handleGoAbout = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const href = event.currentTarget.getAttribute("href");
+    if (href === null) return;
+    history.push(href);
+  };
 
   return (
-    <>
+    <div>
+      <h1>pathname: {pathname}</h1>
+      <nav>
+        <ul>
+          <li>
+            <button onClick={handleGoHome}>Home</button>
+          </li>
+          <li>
+            <a href="/about" onClick={handleGoAbout}>
+              About
+            </a>
+          </li>
+        </ul>
+      </nav>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {pathname === "/" && <>Home</>}
+        {pathname === "/about" && <>About</>}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    </div>
+  );
+};
+export default App;
