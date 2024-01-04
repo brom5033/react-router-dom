@@ -7,9 +7,9 @@ import {
   redirect,
 } from "react-router-dom";
 import Layout from "./routes/Layout";
-import Home, { loader as homeLoader } from "./routes/Home";
 import TeamLayout from "./routes/TeamLayout";
 import Team from "./routes/Team";
+import TeamError from "./routes/TeamError";
 
 let teams = [
   { id: "1", name: "Red" },
@@ -56,6 +56,8 @@ const teamsAction = async ({ request }) => {
 async function teamLoader({ params }) {
   const team = teams.find((team) => team.id === params.id);
 
+  // throw new Error("Hello");
+
   return {
     team,
   };
@@ -78,13 +80,24 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <>Layout Error</>,
     children: [
-      { index: true, element: <Home />, loader: homeLoader },
-      { path: "about", element: <>About</> },
+      {
+        index: true,
+        lazy: async () => {
+          const { loader, default: Component } = await import("./routes/Home");
+          return {
+            loader,
+            element: <Component />,
+          };
+        },
+      },
+      { path: "about", lazy: () => import("./routes/About") },
       { path: "dashboard", element: <>DashBoard</> },
       {
         path: "team",
         element: <TeamLayout />,
+        errorElement: <>TeamLayout Error</>,
         loader: teamsLoader,
         action: teamsAction,
         children: [
@@ -92,6 +105,7 @@ const router = createBrowserRouter([
           {
             path: ":id",
             element: <Team />,
+            errorElement: <TeamError />,
             loader: teamLoader,
             // action: teamAction,
           },
