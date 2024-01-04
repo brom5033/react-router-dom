@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 
 function App() {
   return (
@@ -7,16 +7,16 @@ function App() {
       <nav>
         <ul>
           <li>
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="/about">About</a>
+            <Link to="/about">About</Link>
           </li>
           <li>
-            <a href="/dashboard">DashBoard</a>
+            <Link to="/dashboard">DashBoard</Link>
           </li>
           <li>
-            <a href="/nothing-here">Nothing Here</a>
+            <Link to="/nothing-here">Nothing Here</Link>
           </li>
         </ul>
       </nav>
