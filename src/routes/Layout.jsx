@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, NavLink } from "react-router-dom";
 
 export default function Layout() {
   return (
@@ -7,13 +7,23 @@ export default function Layout() {
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <NavLink
+              to="/about"
+              className={({ isActive }) => (isActive ? "activeClass" : "")}
+            >
+              About
+            </NavLink>
           </li>
           <li>
-            <Link to="/dashboard">DashBoard</Link>
+            <NavLink
+              to="/dashboard"
+              style={({ isActive }) => ({ color: isActive ? "pink" : "" })}
+            >
+              DashBoard
+            </NavLink>
           </li>
           <li>
             <Link to="/nothing-here">Nothing Here</Link>
