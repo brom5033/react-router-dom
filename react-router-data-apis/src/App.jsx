@@ -1,4 +1,10 @@
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import {
+  Route,
+  Outlet,
+  Link,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 function Layout() {
   return (
@@ -25,17 +31,21 @@ function Layout() {
   );
 }
 
+import { createRoutesFromElements } from "react-router-dom";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Layout />}>
+      <Route index element={<>Home</>} />
+      <Route path="about" element={<>About</>} />
+      <Route path="dashboard" element={<>DashBoard</>} />
+      <Route path="*" element={<>Not Found</>} />
+    </Route>
+  )
+);
+
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<>Home</>} />
-        <Route path="about" element={<>About</>} />
-        <Route path="dashboard" element={<>DashBoard</>} />
-        <Route path="*" element={<>Not Found</>} />
-      </Route>
-    </Routes>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
